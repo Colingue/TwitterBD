@@ -40,7 +40,7 @@ if(isset($_POST['form_inscription']))
         $message = "Tous les champs n'ont pas été complétés...";
     }
 }
-
+// OSKUR COLIN
 ?>
 
 <!DOCTYPE html>
