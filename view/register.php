@@ -7,19 +7,32 @@ if(isset($_POST['form_inscription']))
     $pseudo = htmlspecialchars($_POST['pseudo']);
     $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
 
+    // Si les champs sont complétés
     if(!empty($_POST['pseudo']) AND !empty($_POST['password']))
     {
         $pseudo_lenght = strlen($pseudo);
+        // On vérifie si le pseudo est déjà pris
+        $verifiPseudo = $bdd->prepare("SELECT * FROM user WHERE pseudo = ? ");
+        $verifiPseudo->execute(array($pseudo));
+        $doublonPseudo = $verifiPseudo->rowCount();
 
-        if ($pseudo_lenght <= 255) 
+        if ($doublonPseudo == 0)
         {
-            $insert_user = $bdd->prepare("INSERT INTO user(pseudo, motdepasse) VALUES(?, ?)");
-            $insert_user->execute(array($pseudo, $password));
-            $message = "Votre compte a bien été crée !";
+            if ($pseudo_lenght <= 255) 
+            {
+                // On ajoute un utilisateur à la base de données
+                $insert_user = $bdd->prepare("INSERT INTO user(pseudo, motdepasse) VALUES(?, ?)");
+                $insert_user->execute(array($pseudo, $password));
+                $message = "Votre compte a bien été crée !";
+            }
+            else 
+            {
+                $message = "Votre pseudo ne doit pas dépasser 255 caractères";
+            }
         }
         else 
         {
-            $message = "Votre pseudo ne doit pas dépasser 255 caractères";
+            $message = "Mince ! Ce pseudo est déjà pris";
         }
     }
     else
