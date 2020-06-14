@@ -1,4 +1,4 @@
 <?php 
 //include view
-include __DIR__ . '/../view/register.php';
+include __DIR__ . '/../view/connection.php';
 ?>

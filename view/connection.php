@@ -1,23 +1,41 @@
 <?php  
+session_start();
 
 $bdd = new PDO('mysql:host=127.0.0.1;dbname=user__data', 'root', '');
+$connect = mysqli_connect('localhost', 'root', '', 'user__data');
 
 if(isset($_POST['form_connection']))
 {
     $pseudo_connect = htmlspecialchars($_POST['pseudo_connect']);
-    $password_connect = password_hash($_POST['password_connect'], PASSWORD_DEFAULT);
+    $password_connect = htmlspecialchars($_POST['password_connect']);
 
+    $pseudo_connect = strip_tags(mysqli_real_escape_string($connect, trim($pseudo_connect)));
+    $password_connect = strip_tags(mysqli_real_escape_string($connect, trim($password_connect)));
     // Si les champs sont complétés
     if(!empty($_POST['pseudo_connect']) AND !empty($_POST['password_connect']))
     {
+        $find_user = $bdd->prepare("SELECT * FROM user WHERE pseudo = ?");
+        $find_user->execute(array($pseudo_connect));
+
         // Verification que l'user existe
-        $verif = $bdd->prepare("SELECT * FROM user u WHERE u.pseudo = ? AND u.motdepasse = ?");
-        $verif->execute(array($pseudo_connect, $password_connect));
-        $user_exist = $verif->rowCount();
-        if($user_exist == 1)
+        $query = "SELECT * FROM user WHERE pseudo = '".$pseudo_connect."'";
+        $execution = mysqli_query($connect, $query);
+        if(mysqli_num_rows($execution)>0)
         {
-            $user_info = $verif->fetch();
-            
+            $row = mysqli_fetch_array($execution);
+            $password_hash = $row['motdepasse'];
+            if(password_verify($password_connect, $password_hash))
+            {
+
+                $user_info = $find_user->fetch();
+                $_SESSION['id'] = $user_info['id'];
+                $_SESSION['pseudo'] = $user_info['pseudo'];
+                header("Location: profil.php?id=".$_SESSION['id']); 
+            }
+            else 
+            {
+                $message = "Les identifiants sont incorrects...";
+            }
         }
         else 
         {

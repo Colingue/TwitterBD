@@ -16,19 +16,19 @@ class UserModel implements userInterface {
     }
 
     public function search($searchString) {
-        $query = $this->conn->prepare('SELECT u.pseudo FROM user c WHERE c.pseudo like :search ORDER BY u.pseudo'); // Recherche avec une chaine de caractere
+        $query = $this->connection->prepare('SELECT u.pseudo FROM user c WHERE c.pseudo like :search ORDER BY u.pseudo'); // Recherche avec une chaine de caractere
         $query->execute([':search' => '%' . $searchString .  '%']); // Exécution de la requête
         return $query->fetchAll(\PDO::FETCH_ASSOC);
     }
 
     public function findOneById($id) {
-        $query = $this->conn->prepare('SELECT u.pseudo FROM user u WHERE u.id = :id'); // Recherche d'user par ID
+        $query = $this->connection->prepare('SELECT u.pseudo FROM user u WHERE u.id = :id'); // Recherche d'user par ID
         $query->execute([':id' => $id]); // Exécution de la requête
         return $query->fetch(\PDO::FETCH_ASSOC);
     }
 
     public function save(Array $user) : Bool {
-        $query = $this->conn->prepare('INSERT INTO user (pseudo, motdepasse) VALUES (:pseudo, :motdepasse)'); // Ajout d'un nouvel utilisateur
+        $query = $this->connection->prepare('INSERT INTO user (pseudo, motdepasse) VALUES (:pseudo, :motdepasse)'); // Ajout d'un nouvel utilisateur
         return $query->execute([
             ':pseudo' => $user['pseudo'],
             ':motdepasse'=> $user['motdepasse']
