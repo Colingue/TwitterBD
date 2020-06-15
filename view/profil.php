@@ -1,4 +1,4 @@
-<?php  
+<?php
 session_start();
 
 $bdd = new PDO('mysql:host=127.0.0.1;dbname=user__data', 'root', '');
@@ -27,8 +27,6 @@ if (isset($_GET['id']) AND $_GET['id'] > 0)
             <h2>Votre profil <?php echo $user['pseudo']; ?></h2>
             <br/> <br/>
             Pseudo : <?php echo $user['pseudo']; ?>
-            <br/>
-            Mail : <?php echo $user['mail']; ?>
             <br/>
             <?php
             if(isset($_SESSION['id']) AND $user['id'] == $_SESSION['id'])
