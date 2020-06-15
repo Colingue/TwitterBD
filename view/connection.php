@@ -1,4 +1,4 @@
-<?php  
+<?php
 session_start();
 
 $bdd = new PDO('mysql:host=127.0.0.1;dbname=user__data', 'root', '');
@@ -30,7 +30,7 @@ if(isset($_POST['form_connection']))
                 $user_info = $find_user->fetch();
                 $_SESSION['id'] = $user_info['id'];
                 $_SESSION['pseudo'] = $user_info['pseudo'];
-                header("Location: profil.php?id=".$_SESSION['id']); 
+                header("Location: profil_user.php?id=".$_SESSION['id']); 
             }
             else 
             {
