@@ -32,7 +32,7 @@ if (isset($_GET['id']) AND $_GET['id'] > 0)
             if(isset($_SESSION['id']) AND $user['id'] == $_SESSION['id'])
             {
             ?>
-            <a href="#">Editer mon profil</a>
+            <a href="edit_profil.php">Editer mon profil</a>
                 <a href="deconnection.php">Se déconnecter</a>
             <?php
             }
