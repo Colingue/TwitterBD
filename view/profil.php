@@ -7,7 +7,7 @@ $bdd = new PDO('mysql:host=127.0.0.1;dbname=user__data', 'root', '');
 if (isset($_GET['id']) AND $_GET['id'] > 0) 
 {
     $get_id = intval($_GET['id']);
-    $query = $bdd->prepare('SELECT * FROM user WHERE id = ?');
+    $query = $bdd->prepare('SELECT id, pseudo, motdepasse FROM user WHERE id = ?');
     $query->execute(array($get_id));
     $user = $query->fetch();
 }
@@ -40,9 +40,13 @@ if (isset($_GET['id']) AND $_GET['id'] > 0)
         </div>
             <div>
                 <h2>Abonnés</h2>
-                <ul>
-                    <li></li>
-                </ul>
+                <?php
+                $query = $bdd->prepare('SELECT u.pseudo FROM user AS u INNER JOIN subscriptions AS s ON u.id = s.subscriptions_follower_id WHERE s.subscriptions_follow_ups_id = ?');
+                $query->execute(array($get_id));
+                $followers = $query->fetchall();
+                ?>
+                <br/>
+                Ceci est un test : <?php echo $followers[0]['pseudo'];?>
             </div>
             <div>
                 <h2>Abonnements</h2>
