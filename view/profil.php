@@ -38,7 +38,7 @@ if (isset($_GET['id']) AND $_GET['id'] > 0)
             ?>
         </div>
             <div>
-                <h2>Vous suive</h2>
+                <h2>Abonnés</h2>
                 <ul>
                     <li></li>
                 </ul>
