@@ -52,7 +52,7 @@ if (isset($_GET['id']) AND $_GET['id'] > 0)
                     for ($lign = 0; $lign < count($followers); $lign++)
                     {
                         ?>
-                        <a><?php echo $followers[$lign]['pseudo']; ?></a>
+                        <a href=""><?php echo $followers[$lign]['pseudo']; ?></a>
                         </br>
                         <?php
                     }
