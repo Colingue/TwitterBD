@@ -30,7 +30,7 @@ if(isset($_POST['form_connection']))
                 $user_info = $find_user->fetch();
                 $_SESSION['id'] = $user_info['id'];
                 $_SESSION['pseudo'] = $user_info['pseudo'];
-                header("Location: profil_user.php?id=".$_SESSION['id']); 
+                header("Location: timeline.php?id=".$_SESSION['id']); 
             }
             else 
             {
