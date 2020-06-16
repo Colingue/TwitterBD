@@ -10,6 +10,14 @@ if (isset($_GET['id']) AND $_GET['id'] > 0)
     $query = $bdd->prepare('SELECT id, pseudo, motdepasse FROM user WHERE id = ?');
     $query->execute(array($get_id));
     $user = $query->fetch();
+
+    $query = $bdd->prepare('SELECT COUNT(s.subscriptions_follower_id) AS follower FROM subscriptions AS s WHERE s.subscriptions_follow_ups_id = ?');
+    $query->execute(array($get_id));
+    $follower_count=$query->fetch();
+
+    $query = $bdd->prepare('SELECT COUNT(s.subscriptions_follow_ups_id) AS follow_ups FROM subscriptions AS s WHERE s.subscriptions_follower_id = ?');
+    $query->execute(array($get_id));
+    $follower_ups_count=$query->fetch();
 }
 
 ?>
@@ -24,9 +32,14 @@ if (isset($_GET['id']) AND $_GET['id'] > 0)
 
     <body>
         <div align="center">
-            <h2>Votre profil <?php echo $user['pseudo']; ?></h2>
+            <h2><?php echo $user['pseudo']; ?></h2>
             <br/> <br/>
-            Pseudo : <?php echo $user['pseudo']; ?>
+            <div>
+                <div align = "center">
+                    Abonnées : <?php echo $follower_count['follower'];?>
+                    Abonnements : <?php echo $follower_ups_count['follow_ups']; ?>
+                </div>
+            </div>
             <br/>
             <?php
             if(isset($_SESSION['id']) AND $user['id'] == $_SESSION['id'])
@@ -43,7 +56,7 @@ if (isset($_GET['id']) AND $_GET['id'] > 0)
             <div>
                 <h2>Abonnés</h2>
                 <?php
-                $query = $bdd->prepare('SELECT u.pseudo FROM user AS u INNER JOIN subscriptions AS s ON u.id = s.subscriptions_follower_id WHERE s.subscriptions_follow_ups_id = ?');
+                $query = $bdd->prepare('SELECT u.pseudo, u.id FROM user AS u INNER JOIN subscriptions AS s ON u.id = s.subscriptions_follower_id WHERE s.subscriptions_follow_ups_id = ?');
                 $query->execute(array($get_id));
                 $followers = $query->fetchall();
                 ?>
@@ -52,7 +65,7 @@ if (isset($_GET['id']) AND $_GET['id'] > 0)
                     for ($lign = 0; $lign < count($followers); $lign++)
                     {
                         ?>
-                        <a href=""><?php echo $followers[$lign]['pseudo']; ?></a>
+                        <a href="public_profil.php?id=<?php echo $_SESSION['id'];?>&public_id=<?php echo $followers[$lign]['id']; ?>"><?php echo $followers[$lign]['pseudo']; ?></a>
                         </br>
                         <?php
                     }
@@ -63,7 +76,7 @@ if (isset($_GET['id']) AND $_GET['id'] > 0)
             <div>
                 <h2>Abonnements</h2>
                 <?php
-                $query = $bdd->prepare('SELECT u.pseudo FROM user AS u INNER JOIN subscriptions AS s ON u.id = s.subscriptions_follow_ups_id WHERE s.subscriptions_follower_id = ?');
+                $query = $bdd->prepare('SELECT u.pseudo, u.id FROM user AS u INNER JOIN subscriptions AS s ON u.id = s.subscriptions_follow_ups_id WHERE s.subscriptions_follower_id = ?');
                 $query->execute(array($get_id));
                 $followers = $query->fetchall();
                 ?>
@@ -72,7 +85,7 @@ if (isset($_GET['id']) AND $_GET['id'] > 0)
                     for ($lign = 0; $lign < count($followers); $lign++)
                     {
                         ?>
-                        <a><?php echo $followers[$lign]['pseudo']; ?></a>
+                        <a href="public_profil.php?id=<?php echo $_SESSION['id'];?>&public_id=<?php echo $followers[$lign]['id']; ?>"><?php echo $followers[$lign]['pseudo']; ?></a>
                         </br>
                         <?php
                     }
