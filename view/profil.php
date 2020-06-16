@@ -38,6 +38,7 @@ if (isset($_GET['id']) AND $_GET['id'] > 0)
             }
             ?>
         </div>
+        <div align = "center">
             <div>
                 <h2>Abonnés</h2>
                 <?php
@@ -45,11 +46,38 @@ if (isset($_GET['id']) AND $_GET['id'] > 0)
                 $query->execute(array($get_id));
                 $followers = $query->fetchall();
                 ?>
-                <br/>
-                Ceci est un test : <?php echo $followers[0]['pseudo'];?>
+                <table width="630" align="left" bgcolor="#EEEEEE">
+                    <?php
+                    for ($lign = 0; $lign < count($followers); $lign++)
+                    {
+                        ?>
+                        <a><?php echo $followers[$lign]['pseudo']; ?></a>
+                        </br>
+                        <?php
+                    }
+                    ?>
+                </br>
+                </table>
             </div>
             <div>
                 <h2>Abonnements</h2>
+                <?php
+                $query = $bdd->prepare('SELECT u.pseudo FROM user AS u INNER JOIN subscriptions AS s ON u.id = s.subscriptions_follow_ups_id WHERE s.subscriptions_follower_id = ?');
+                $query->execute(array($get_id));
+                $followers = $query->fetchall();
+                ?>
+                <table width="630" align="left" bgcolor="#EE88EE">
+                    <?php
+                    for ($lign = 0; $lign < count($followers); $lign++)
+                    {
+                        ?>
+                        <a><?php echo $followers[$lign]['pseudo']; ?></a>
+                        </br>
+                        <?php
+                    }
+                    ?>
+                    </br>
+                </table>
             </div>
         </div>
     </body>
