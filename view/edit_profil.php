@@ -73,6 +73,8 @@ if (isset($_SESSION['id']))
                 <input type="submit" value="Mettre à jour mon profil" />
             </form>
             <?php if(isset($message)) { echo $message; } ?>
+            </br></br>
+            <a href="timeline.php?id=<?php echo $_SESSION['id'];?>">Revenir sur la page d'accueil</a>
         </div>
     </body>
 </html>
