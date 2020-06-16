@@ -12,13 +12,16 @@ if (isset($_GET['id']) AND $_GET['id'] > 0)
     $user = $query->fetch();
 
     $query = $bdd->prepare('SELECT COUNT(s.subscriptions_follower_id) AS follower FROM subscriptions AS s WHERE s.subscriptions_follow_ups_id = ?');
-    $query->execute(array($_GET['public_id']));
+    $query->execute(array($get_id));
     $follower_count=$query->fetch();
 
     $query = $bdd->prepare('SELECT COUNT(s.subscriptions_follow_ups_id) AS follow_ups FROM subscriptions AS s WHERE s.subscriptions_follower_id = ?');
-    $query->execute(array($_GET['public_id']));
+    $query->execute(array($get_id));
     $follower_ups_count=$query->fetch();
 }
+
+$tweets = $bdd->prepare('SELECT tweet_id, tweet_user_id, tweet_like, tweet_date, tweet_message FROM tweet WHERE tweet_user_id = ? ORDER BY tweet_date DESC');
+$tweets->execute(array($get_id));
 
 ?>
 
@@ -44,5 +47,13 @@ if (isset($_GET['id']) AND $_GET['id'] > 0)
     <div align = "center">
         <a href="timeline.php?id=<?php echo $_SESSION['id'];?>">Retourner sur la page d'accueil</a>
     </div>
+    <div>
+    </br>
+    <?php while($tweet_affiche = $tweets->fetch()) { ?>
+        <b><?= $user['pseudo'] ?>:</b> <?= $tweet_affiche['tweet_message'] ?></br>
+    </div>
+    <?php
+    }
+    ?>
 </body>
 </html>

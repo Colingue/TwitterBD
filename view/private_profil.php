@@ -20,6 +20,9 @@ if (isset($_GET['id']) AND $_GET['id'] > 0)
     $follower_ups_count=$query->fetch();
 }
 
+$tweets = $bdd->prepare('SELECT tweet_id, tweet_user_id, tweet_like, tweet_date, tweet_message FROM tweet WHERE tweet_user_id = ? ORDER BY tweet_date DESC');
+$tweets->execute(array($get_id));
+
 ?>
 
 <!DOCTYPE html>
@@ -91,6 +94,11 @@ if (isset($_GET['id']) AND $_GET['id'] > 0)
                     }
                     ?>
                     </br>
+                    <?php while($tweet_affiche = $tweets->fetch()) { ?>
+                        <b><?= $user['pseudo'] ?>:</b> <?= $tweet_affiche['tweet_message'] ?></br>
+                    <?php
+                    }
+                    ?>
                 </table>
             </div>
         </div>

@@ -1,6 +1,6 @@
 <?php 
 //include view
-require_once __DIR__ . '/../view/profil.php';
+require_once __DIR__ . '/../view/private_profil.php';
 require_once __DIR__ . '/../database/db.php';
 
 $bdd = new Database(

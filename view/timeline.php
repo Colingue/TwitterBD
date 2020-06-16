@@ -19,9 +19,23 @@ if(isset($_POST['tweet_form']))
             // Insert un nouveau tweet dans le base de données
             $query = $bdd->prepare('INSERT INTO tweet (tweet_user_id, tweet_like , tweet_date, tweet_message) VALUES (?, ?, now(), ?)');
             $query->execute(array($_GET['id'], 0, $tweet));
+
+            $message = "Votre tweet a bien été publié !";
         }
     }
 }
+
+// Recherche de l'utilisateur qui a ecrit le tweet
+$tweets = $bdd->prepare('SELECT tweet_id, tweet_user_id, tweet_like, tweet_date, tweet_message FROM tweet ORDER BY tweet_date DESC');
+$tweets->execute();
+$tweet_all = $tweets->fetch();
+$user_id = $tweet_all['tweet_user_id'];
+
+$user = $bdd->prepare('SELECT id, pseudo FROM user WHERE id = ?');
+$user->execute(array($user_id));
+$user_info = $user->fetch();
+
+
 
 ?>
 <!DOCTYPE html>
@@ -36,7 +50,7 @@ if(isset($_POST['tweet_form']))
         <div>
             <div>
                 <a href="edit_profil.php?id=<?php echo $_SESSION['id'];?>">Editer mon profil</a>
-                <a href="profil_user.php?id=<?php echo $_SESSION['id'];?>">Voir mon profil</a> 
+                <a href="private_profil.php?id=<?php echo $_SESSION['id'];?>">Voir mon profil</a> 
             </div>
             <div align="center">
                 <h2>Home</h2>
@@ -44,7 +58,17 @@ if(isset($_POST['tweet_form']))
                     <textarea width=500 name="tweet" placeholder="Avez vous quelque chose à dire ?"></textarea></br></br>
                     <input type="submit" value="Tweeter !" name="tweet_form" />
                 </form>
+                </br>
                 <?php if(isset($message)) { echo $message; } ?>
+
+                <div>
+                    </br>
+                    <?php while($tweet_affiche = $tweets->fetch()) { ?>
+                    <b><?= $user_info['pseudo'] ?>:</b> <?= $tweet_affiche['tweet_message'] ?></br>
+                    </div>
+                    <?php
+                    }
+                    ?>
             </div>
         </div>
         
