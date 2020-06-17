@@ -27,10 +27,11 @@ if(isset($_POST['tweet_form']))
 
 // Recherche de l'utilisateur qui a ecrit le tweet
 $tweet = $bdd->prepare('SELECT t.tweet_id, t.tweet_user_id, t.tweet_like, t.tweet_date, t.tweet_message FROM tweet AS t
-                        INNER JOIN subscriptions AS s ON t.tweet_user_id = s.subscriptions_follow_ups_id WHERE s.subscriptions_follower_id = 5
+                        INNER JOIN subscriptions AS s ON t.tweet_user_id = s.subscriptions_follow_ups_id WHERE s.subscriptions_follower_id = ?
                         UNION
-                        SELECT t.tweet_id, t.tweet_user_id, t.tweet_like, t.tweet_date, t.tweet_message FROM tweet AS t WHERE t.tweet_user_id = 5');
-$tweet->execute(array($_GET['id']));
+                        SELECT t.tweet_id, t.tweet_user_id, t.tweet_like, t.tweet_date, t.tweet_message FROM tweet AS t WHERE t.tweet_user_id = ?
+                        ORDER BY tweet_date DESC');
+$tweet->execute(array($_GET['id'], $_GET['id']));
 $tweet_tl = $tweet->fetchall();
 
 ?>

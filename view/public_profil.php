@@ -48,12 +48,12 @@ $tweets->execute(array($get_id));
         <a href="timeline.php?id=<?php echo $_SESSION['id'];?>">Retourner sur la page d'accueil</a>
     </div>
     <div align ="center">
-    </br>
-    <?php while($tweet_affiche = $tweets->fetch()) { ?>
-        <b><?= $user['pseudo'] ?>:</b> <?= $tweet_affiche['tweet_message'] ?></br>
-    </div>
+        </br>
+        <?php while($tweet_affiche = $tweets->fetch()) { ?>
+            <b><?= $user['pseudo'] ?>:</b> <?= $tweet_affiche['tweet_message'] ?></br>
     <?php
     }
     ?>
+    </div>
 </body>
 </html>

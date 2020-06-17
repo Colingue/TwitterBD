@@ -93,13 +93,15 @@ $tweets->execute(array($get_id));
                         <?php
                     }
                     ?>
+                </table>
+                <div>
                     </br>
                     <?php while($tweet_affiche = $tweets->fetch()) { ?>
                         <b><?= $user['pseudo'] ?>:</b> <?= $tweet_affiche['tweet_message'] ?></br>
-                    <?php
+                        <?php
                     }
                     ?>
-                </table>
+                </div>
             </div>
         </div>
     </body>
