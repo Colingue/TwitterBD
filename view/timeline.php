@@ -27,10 +27,10 @@ if(isset($_POST['tweet_form']))
 
 // Recherche de l'utilisateur qui a ecrit le tweet
 $tweet = $bdd->prepare('SELECT t.tweet_id, t.tweet_user_id, t.tweet_like, t.tweet_date, t.tweet_message FROM tweet AS t
-                        INNER JOIN subscriptions AS s ON t.tweet_user_id = s.subscriptions_follow_ups_id WHERE s.subscriptions_follower_id = 5
+                        INNER JOIN subscriptions AS s ON t.tweet_user_id = s.subscriptions_follow_ups_id WHERE s.subscriptions_follower_id = ?
                         UNION
-                        SELECT t.tweet_id, t.tweet_user_id, t.tweet_like, t.tweet_date, t.tweet_message FROM tweet AS t WHERE t.tweet_user_id = 5');
-$tweet->execute(array($_GET['id']));
+                        SELECT t.tweet_id, t.tweet_user_id, t.tweet_like, t.tweet_date, t.tweet_message FROM tweet AS t WHERE t.tweet_user_id = ?');
+$tweet->execute(array($_GET['id'], $_GET['id']));
 $tweet_tl = $tweet->fetchall();
 
 ?>
@@ -44,39 +44,38 @@ $tweet_tl = $tweet->fetchall();
     </head>
 
     <body>
-        <div>
-            <div>
-                <a href="edit_profil.php?id=<?php echo $_SESSION['id'];?>">Editer mon profil</a>
-                <a href="private_profil.php?id=<?php echo $_SESSION['id'];?>">Voir mon profil</a> 
-            </div>
-            <div align="center">
-                <h2>Home</h2>
-                <form method="POST" action="">
-                    <textarea width=500 name="tweet" placeholder="Avez vous quelque chose à dire ?"></textarea></br></br>
-                    <input type="submit" value="Tweeter !" name="tweet_form" />
-                </form>
-                </br>
-                <?php if(isset($message)) { echo $message; } ?>
+        <header>
+            <h2>Accueil</h2>
+        </header>
 
-                <div>
-                    </br>
-<<<<<<< HEAD
-                    <?php while($tweet_affiche = $tweets->fetch()) { ?>
-                    <b><?= $user_info['pseudo'] ?>:</b> <?= $tweet_affiche['tweet_message'] ?></br>
-                </div>
-=======
-                    <?php for ($lign = 0; $lign < count($tweet_tl); $lign++) {
+        <div class="page-accueil">
+            <nav class="section-accueil">
+                <ul>
+                    <li><a href="edit_profil.php?id=<?php echo $_SESSION['id'];?>">Editer mon profil</a></li>
+                    <li><a href="private_profil.php?id=<?php echo $_SESSION['id'];?>">Voir mon profil</a></li>
+                </ul>
+            </nav>
+            
+            <section class="section-accueil" id="tl-defilement">
+                <form id="form-write-tweet" method="POST" action="">
+                    <textarea name="tweet" placeholder="Quoi de neuf ?"></textarea></br>
+                    </br><input type="submit" value="Tweeter !" name="tweet_form" /></br> 
+                </form>
+                <?php if(isset($message)) { echo $message; } ?>
+                <div class="affichage-tweets">
+                    </br><?php for ($lign = 0; $lign < count($tweet_tl); $lign++) {
                     $tweet_info = $bdd->prepare('SELECT u.pseudo FROM user AS u INNER JOIN tweet AS t ON u.id = t.tweet_user_id WHERE t.tweet_user_id = ? GROUP BY u.pseudo');
                     $tweet_info->execute(array($tweet_tl[$lign]['tweet_user_id']));
                     $pseudo = $tweet_info->fetch(); ?>
                     <b><?= $pseudo['pseudo']?>:</b><?= $tweet_tl[$lign]['tweet_message'] ?></br>
->>>>>>> 7dfe52d2247fb6c73a013640a443e1b2179bfac4
                     <?php
                     }
                     ?>
                 </div>
-            </div>
+            </section>
+            
+            <nav class="section-accueil">
+            </nav>
         </div>
-        
     </body>
 </html>
