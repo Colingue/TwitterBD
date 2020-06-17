@@ -59,3 +59,17 @@ input{
 	padding: 0.1rem 0 0 0;
 	font-size: 0.875rem;
   }
+
+.profil-lien {
+    text-decoration: none;
+    color: #4095c6;
+    font-size: 1.2em;
+}
+
+.li-profil-lien {
+    margin: 30px;   
+}
+
+.list-profil {
+    list-style: none;
+}

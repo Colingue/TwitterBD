@@ -51,9 +51,9 @@ $tweet_tl = $tweet->fetchall();
 
         <div class="page-accueil">
             <nav class="section-accueil">
-                <ul>
-                    <li><a href="edit_profil.php?id=<?php echo $_SESSION['id'];?>">Editer mon profil</a></li>
-                    <li><a href="private_profil.php?id=<?php echo $_SESSION['id'];?>">Voir mon profil</a></li>
+                <ul class="list-profil">
+                    <li class="li-profil-lien"><a class="profil-lien" href="edit_profil.php?id=<?php echo $_SESSION['id'];?>">Editer mon profil</a></li>
+                    <li class="li-profil-lien"><a class="profil-lien" href="private_profil.php?id=<?php echo $_SESSION['id'];?>">Voir mon profil</a></li>
                 </ul>
             </nav>
             
@@ -61,7 +61,7 @@ $tweet_tl = $tweet->fetchall();
                 <form id="form-write-tweet" method="POST" action="">
                     <textarea name="tweet" placeholder="Quoi de neuf ?"></textarea></br>
                     <div id="the-count">
-                        <span id="current"><?php echo $tweet_count;?></span>
+                        <span id="current">0</span>
                         <span id="maximum">/ 140</span>
                     </div>
                     </br><input type="submit" value="Tweeter !" name="tweet_form" /></br> 
