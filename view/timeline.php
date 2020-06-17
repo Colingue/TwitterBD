@@ -61,10 +61,10 @@ $tweet_tl = $tweet->fetchall();
                 <div>
                     </br>
                     <?php for ($lign = 0; $lign < count($tweet_tl); $lign++) {
-                    $tweet_info = $bdd->prepare('SELECT u.pseudo FROM user AS u INNER JOIN tweet AS t ON u.id = t.tweet_user_id WHERE t.tweet_user_id = ? GROUP BY u.pseudo');
+                    $tweet_info = $bdd->prepare('SELECT u.pseudo, u.id FROM user AS u INNER JOIN tweet AS t ON u.id = t.tweet_user_id WHERE t.tweet_user_id = ? GROUP BY u.pseudo');
                     $tweet_info->execute(array($tweet_tl[$lign]['tweet_user_id']));
                     $pseudo = $tweet_info->fetch(); ?>
-                    <b><?= $pseudo['pseudo']?>:</b><?= $tweet_tl[$lign]['tweet_message'] ?></br>
+                        <b> <a href="public_profil.php?id=<?php echo $_SESSION['id'];?>&public_id=<?php echo $pseudo['id']; ?>"><?= $pseudo['pseudo']?>:</a></b><?= $tweet_tl[$lign]['tweet_message'] ?></br>
                     <?php
                     }
                     ?>
