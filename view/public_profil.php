@@ -24,6 +24,18 @@ if (isset($_GET['id']) AND $_GET['id'] > 0)
     $follow_button = $query->fetchall();
 }
 
+if(isset($_POST['follow_form']))
+{
+    $query = $bdd->prepare('INSERT INTO subscriptions (subscriptions_follow_ups_id, subscriptions_follower_id) VALUES(?, ?)');
+    $query->execute(array($get_id, $_GET['id']));
+}
+if(isset($_POST['unfollow_form']))
+{
+    $query = $bdd->prepare('DELETE FROM subscriptions WHERE subscriptions_follow_ups_id = ? AND subscriptions_follower_id = ?');
+    $query->execute(array($get_id, $_GET['id']));
+
+}
+
 $tweets = $bdd->prepare('SELECT tweet_id, tweet_user_id, tweet_like, tweet_date, tweet_message FROM tweet WHERE tweet_user_id = ? ORDER BY tweet_date DESC');
 $tweets->execute(array($get_id));
 
@@ -52,7 +64,7 @@ $tweets->execute(array($get_id));
         <?php if($follow_button[0]['follow'] > 0)
         {
             ?>
-            <input type="submit" value="Se désabonner" name="follow_form" />
+            <input type="submit" value="Se désabonner" name="unfollow_form" />
             <?php
         }
         elseif($_GET['id'] != $get_id)

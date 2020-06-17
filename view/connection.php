@@ -47,7 +47,6 @@ if(isset($_POST['form_connection']))
         $message = "Tous les champs n'ont pas été complétés...";
     }
 }
-// OSKUR COLIN
 ?>
 
 <!DOCTYPE html>
@@ -74,6 +73,9 @@ if(isset($_POST['form_connection']))
                 echo $message;
             }
             ?>
+        </div>
+        <div align = "center">
+            <a href="register.php">Créer un compte</a>
         </div>
     </body>
 </html>
