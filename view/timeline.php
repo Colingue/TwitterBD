@@ -8,8 +8,8 @@ if(isset($_POST['tweet_form']))
     if(isset($_POST['tweet']) AND !empty($_POST['tweet']))
     {
         $tweet = htmlspecialchars($_POST['tweet']);
-
-        if(strlen($tweet) <= 140)
+        $tweet_count = strlen($tweet);
+        if(strlen($tweet_count) <= 140)
         {
             //Prends la date Now
             $queryDate = $bdd->prepare('SELECT NOW()');
@@ -60,6 +60,10 @@ $tweet_tl = $tweet->fetchall();
             <section class="section-accueil" id="tl-defilement">
                 <form id="form-write-tweet" method="POST" action="">
                     <textarea name="tweet" placeholder="Quoi de neuf ?"></textarea></br>
+                    <div id="the-count">
+                        <span id="current"><?php echo $tweet_count;?></span>
+                        <span id="maximum">/ 140</span>
+                    </div>
                     </br><input type="submit" value="Tweeter !" name="tweet_form" /></br> 
                 </form>
                 <?php if(isset($message)) { echo $message; } ?>
