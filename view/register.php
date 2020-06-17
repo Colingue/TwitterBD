@@ -87,6 +87,9 @@ if(isset($_POST['form_inscription']))
                 echo $message;
             }
             ?>
+            <div>
+                <a href="index.php">Retourer à la connection</a>
+            </div>
         </div>
     </body>
 </html>
