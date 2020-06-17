@@ -18,6 +18,10 @@ if (isset($_GET['id']) AND $_GET['id'] > 0)
     $query = $bdd->prepare('SELECT COUNT(s.subscriptions_follow_ups_id) AS follow_ups FROM subscriptions AS s WHERE s.subscriptions_follower_id = ?');
     $query->execute(array($get_id));
     $follower_ups_count=$query->fetch();
+
+    $query = $bdd->prepare('SELECT COUNT(s.subscriptions_id) AS follow FROM subscriptions AS s WHERE s.subscriptions_follow_ups_id = ? AND s.subscriptions_follower_id = ?');
+    $query->execute(array($get_id, $_GET['id']));
+    $follow_button = $query->fetchall();
 }
 
 $tweets = $bdd->prepare('SELECT tweet_id, tweet_user_id, tweet_like, tweet_date, tweet_message FROM tweet WHERE tweet_user_id = ? ORDER BY tweet_date DESC');
@@ -42,6 +46,22 @@ $tweets->execute(array($get_id));
     <div align = "center">
             Abonnées : <?php echo $follower_count['follower'];?>
             Abonnements : <?php echo $follower_ups_count['follow_ups']; ?>
+    </div>
+    </br>
+    <div align ="center">
+        <?php if($follow_button[0]['follow'] > 0)
+        {
+            ?>
+            <input type="submit" value="Se désabonner" name="follow_form" />
+            <?php
+        }
+        elseif($_GET['id'] != $get_id)
+        {
+            ?>
+            <input type="submit" value="Suivre" name="follow_form" />
+            <?php
+        }
+        ?>
     </div>
     </br>
     <div align = "center">
