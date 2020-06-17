@@ -26,16 +26,12 @@ if(isset($_POST['tweet_form']))
 }
 
 // Recherche de l'utilisateur qui a ecrit le tweet
-$tweets = $bdd->prepare('SELECT tweet_id, tweet_user_id, tweet_like, tweet_date, tweet_message FROM tweet ORDER BY tweet_date DESC');
-$tweets->execute();
-$tweet_all = $tweets->fetch();
-$user_id = $tweet_all['tweet_user_id'];
-
-$user = $bdd->prepare('SELECT id, pseudo FROM user WHERE id = ?');
-$user->execute(array($user_id));
-$user_info = $user->fetch();
-
-
+$tweet = $bdd->prepare('SELECT t.tweet_id, t.tweet_user_id, t.tweet_like, t.tweet_date, t.tweet_message FROM tweet AS t
+                        INNER JOIN subscriptions AS s ON t.tweet_user_id = s.subscriptions_follow_ups_id WHERE s.subscriptions_follower_id = 5
+                        UNION
+                        SELECT t.tweet_id, t.tweet_user_id, t.tweet_like, t.tweet_date, t.tweet_message FROM tweet AS t WHERE t.tweet_user_id = 5');
+$tweet->execute(array($_GET['id']));
+$tweet_tl = $tweet->fetchall();
 
 ?>
 <!DOCTYPE html>
@@ -63,12 +59,15 @@ $user_info = $user->fetch();
 
                 <div>
                     </br>
-                    <?php while($tweet_affiche = $tweets->fetch()) { ?>
-                    <b><?= $user_info['pseudo'] ?>:</b> <?= $tweet_affiche['tweet_message'] ?></br>
-                    </div>
+                    <?php for ($lign = 0; $lign < count($tweet_tl); $lign++) {
+                    $tweet_info = $bdd->prepare('SELECT u.pseudo FROM user AS u INNER JOIN tweet AS t ON u.id = t.tweet_user_id WHERE t.tweet_user_id = ? GROUP BY u.pseudo');
+                    $tweet_info->execute(array($tweet_tl[$lign]['tweet_user_id']));
+                    $pseudo = $tweet_info->fetch(); ?>
+                    <b><?= $pseudo['pseudo']?>:</b><?= $tweet_tl[$lign]['tweet_message'] ?></br>
                     <?php
                     }
                     ?>
+                </div>
             </div>
         </div>
         

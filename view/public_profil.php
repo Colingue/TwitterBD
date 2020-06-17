@@ -47,7 +47,7 @@ $tweets->execute(array($get_id));
     <div align = "center">
         <a href="timeline.php?id=<?php echo $_SESSION['id'];?>">Retourner sur la page d'accueil</a>
     </div>
-    <div>
+    <div align ="center">
     </br>
     <?php while($tweet_affiche = $tweets->fetch()) { ?>
         <b><?= $user['pseudo'] ?>:</b> <?= $tweet_affiche['tweet_message'] ?></br>
