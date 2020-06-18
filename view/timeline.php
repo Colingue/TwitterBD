@@ -103,7 +103,8 @@ $tweet_tl = $tweet->fetchall();
                 <div class="sub-div">
                     <div class="part">
                         <h2>Suggestions</h2>
-                        <a id="pseudo-tweet" href="public_profil.php?id=<?php echo $_SESSION['id'];?>&public_id=<?php echo $pseudo['id']; ?>"><?= $pseudo['pseudo']?></a></br>
+                        <a id="pseudo-tweet" href="public_profil.php?id=<?php echo $_SESSION['id'];?>&public_id=6">test2</a></br>
+
                         </table>
                     </div>
                 </div>    
