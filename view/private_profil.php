@@ -42,7 +42,6 @@ $tweets->execute(array($get_id));
             <nav class="section-accueil">
                 <ul class="list-profil">
                     <li class="li-profil-lien"><img id="logo" src="css/css/twitter-logo.jpg"></li>
-                    <li class="li-profil-lien"><a class="profil-lien" href="private_profil.php?id=<?php echo $_SESSION['id'];?>"><i class="fas fa-user-alt"></i>Voir mon profil</a></li>
                     <li class="li-profil-lien"><a class="profil-lien" href="edit_profil.php?id=<?php echo $_SESSION['id'];?>"><i class="fas fa-pencil-alt"></i>Editer mon profil</a></li>
                     <?php
                     if(isset($_SESSION['id']) AND $user['id'] == $_SESSION['id'])

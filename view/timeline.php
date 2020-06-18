@@ -92,6 +92,27 @@ $tweet_tl = $tweet->fetchall();
             </section>
             
             <nav class="section-accueil">
+                <div class="sub-div">
+                    <div class="part">
+                        <h2>Suggestions</h2>
+                        <?php
+                        $query = $bdd->prepare('SELECT u.pseudo FROM user AS u');
+                        $query->execute(array($_GET['id']));
+                        $followers = $query->fetchall();
+                        ?>
+                        <table>
+                            <?php
+                            for ($lign = 0; $lign < count($followers); $lign++)
+                            {
+                                ?>
+                                <a class="link-sub" href="public_profil.php?id=<?php echo $_SESSION['id'];?>&public_id=<?php echo $pseudo['id']; ?>"><?= $pseudo['pseudo']?></a>
+                                </br>
+                                <?php
+                            }
+                            ?>
+                        </table>
+                    </div>
+                </div>    
             </nav>
         </div>
     </body>

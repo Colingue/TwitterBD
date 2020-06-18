@@ -59,22 +59,38 @@ if(isset($_POST['form_connection']))
 
     <body>
         <div align="center">
+            <img id="logo-connect" src="css/css/twitter-logo.jpg">
             <h2>Connectez vous</h2>
-            <br/> <br/>
-            <form method="POST" action="">
-                <input type="text" name="pseudo_connect" placeholder="Pseudo" />
-                <input type="password" name="password_connect" placeholder="Mot de passe" />
-                <input type="submit" name="form_connection" value="Se connecter" />
-            </form>
-            <br/>
-            <?php
-            if(isset($message)) 
-            {
-                echo $message;
-            }
-            ?>
+                <form method="POST" action="">
+                    <div class="form-div">
+                        <div>
+                            <label for="input" class="Input-label">Pseudo</label>
+                            <input id="input" class="Input-text" type="text" name="pseudo_connect" placeholder="Pseudo" />
+                        </div>
+                        </br>
+                        <div>
+                            <label for="input" class="Input-label">Mot de passe</label>
+                            <input id="input" class="Input-text" type="password" name="password_connect" placeholder="Mot de passe" />
+                        </div>
+                        </br>
+                        <input type="submit" name="form_connection" value="Se connecter" />
+                    </div>                  
+                </form>
+            </div>
         </div>
-        <div align = "center">
+
+            
+            <br/>
+            <div align="center">
+                <?php
+                if(isset($message)) 
+                {
+                    echo $message;
+                }
+                ?>
+            </div>
+        </div>
+        <div align="center">
             <a href="register.php">Créer un compte</a>
         </div>
     </body>
