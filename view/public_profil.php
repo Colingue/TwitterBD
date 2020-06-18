@@ -57,8 +57,8 @@ $tweets->execute(array($get_id));
     </br>
     </br>
     <div align = "center">
-            Abonnées : <?php echo $follower_count['follower'];?>
-            Abonnements : <?php echo $follower_ups_count['follow_ups']; ?>
+            <p>Abonnées : <?php echo $follower_count['follower'];?></p>
+            <p>Abonnements : <?php echo $follower_ups_count['follow_ups']; ?></p>
     </div>
     </br>
     <div align="center">

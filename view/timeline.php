@@ -66,7 +66,6 @@ $tweet_tl = $tweet->fetchall();
                 <form id="form-write-tweet" method="POST" action="">
                     <textarea name="tweet" placeholder="Quoi de neuf ?"></textarea></br>
                     <div id="the-count">
-                    </br><input type="submit" value="Tweeter !" name="tweet_form" /></br>
                         <span id="current">0</span>
                         <span id="maximum">/ 140</span>
                     </div>
@@ -88,15 +87,6 @@ $tweet_tl = $tweet->fetchall();
                         </div>
                         <?php
                     }
-                    ?>
-                </div>
-            </section>
-            
-            <nav class="section-accueil">
-            </nav>
-        </div>
-    </body>
-</html>                    }
                     ?>
                 </div>
             </section>
