@@ -45,7 +45,7 @@ if (isset($_SESSION['id']))
 
     if (isset($_POST['new_password']) AND !empty($_POST['new_password']) AND $_POST['new_password'] != $user['motdepasse']) 
     {
-        $new_password = password_hash($_POST['new_password'], PASSWORD_DEFAULT);
+        $new_password = htmlspecialchars(password_hash($_POST['new_password'], PASSWORD_DEFAULT));
         $update_password = $bdd->prepare("UPDATE user SET motdepasse = ? WHERE id = ?");
         $update_password->execute(array($new_password, $_SESSION['id']));
         header('Location: profil_user.php?id='.$_SESSION['id']);

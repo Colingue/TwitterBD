@@ -96,13 +96,4 @@ $tweet_tl = $tweet->fetchall();
             </nav>
         </div>
     </body>
-</html>                    }
-                    ?>
-                </div>
-            </section>
-            
-            <nav class="section-accueil">
-            </nav>
-        </div>
-    </body>
 </html>

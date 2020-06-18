@@ -98,8 +98,7 @@ $tweets->execute(array($get_id));
             </div>
             <div align = "center">
                 </br>
-                <?php $test =1;
-                while($tweet_affiche = $tweets->fetch()) { ?>
+                <?php while($tweet_affiche = $tweets->fetch()) { ?>
                     <b><a href="public_profil.php?id=<?php echo $_SESSION['id'];?>&public_id=<?php echo $tweet_affiche['tweet_user_id']; ?>"><?= $user['pseudo'] ?>:</a></b> <?= $tweet_affiche['tweet_message'] ?></br>
                     </br>
                     <?php
