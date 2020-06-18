@@ -1,4 +1,5 @@
 <?php
+
 session_start();
 
 $bdd = new PDO('mysql:host=127.0.0.1;dbname=user__data', 'root', '');
@@ -8,7 +9,6 @@ if(isset($_POST['tweet_form']))
     if(isset($_POST['tweet']) AND !empty($_POST['tweet']))
     {
         $tweet = htmlspecialchars($_POST['tweet']);
-
         if(strlen($tweet) <= 140)
         {
             //Prends la date Now
@@ -60,7 +60,7 @@ $tweet_tl = $tweet->fetchall();
             <section class="section-accueil" id="tl-defilement">
                 <form id="form-write-tweet" method="POST" action="">
                     <textarea name="tweet" placeholder="Quoi de neuf ?"></textarea></br>
-                    </br><input type="submit" value="Tweeter !" name="tweet_form" /></br> 
+                    </br><input type="submit" value="Tweeter !" name="tweet_form" /></br>
                 </form>
                 <?php if(isset($message)) { echo $message; } ?>
 

@@ -21,19 +21,20 @@ if (isset($_GET['id']) AND $_GET['id'] > 0)
 
     $query = $bdd->prepare('SELECT COUNT(s.subscriptions_id) AS follow FROM subscriptions AS s WHERE s.subscriptions_follow_ups_id = ? AND s.subscriptions_follower_id = ?');
     $query->execute(array($get_id, $_GET['id']));
-    $follow_button = $query->fetchall();
+    $follow_type = $query->fetchall();
 }
 
-if(isset($_POST['follow_form']))
+if(isset($_POST['follow_f']) AND $follow_type[0]['follow'] == 0)
 {
     $query = $bdd->prepare('INSERT INTO subscriptions (subscriptions_follow_ups_id, subscriptions_follower_id) VALUES(?, ?)');
     $query->execute(array($get_id, $_GET['id']));
+    $message = "Vous vous êtes abonné";
 }
-if(isset($_POST['unfollow_form']))
+if(isset($_POST['unfollow_form']) AND $follow_type[0]['follow'] > 0)
 {
     $query = $bdd->prepare('DELETE FROM subscriptions WHERE subscriptions_follow_ups_id = ? AND subscriptions_follower_id = ?');
     $query->execute(array($get_id, $_GET['id']));
-
+    $message = "Vous vous êtes désabonné";
 }
 
 $tweets = $bdd->prepare('SELECT tweet_id, tweet_user_id, tweet_like, tweet_date, tweet_message FROM tweet WHERE tweet_user_id = ? ORDER BY tweet_date DESC');
@@ -60,20 +61,28 @@ $tweets->execute(array($get_id));
             Abonnements : <?php echo $follower_ups_count['follow_ups']; ?>
     </div>
     </br>
-    <div align ="center">
-        <?php if($follow_button[0]['follow'] > 0)
-        {
+    <div align="center">
+        <form method="POST" action ="">
+            <?php if($follow_type[0]['follow'] > 0)
+            {
+                $follow_button = 'Se désabonner';
+                ?>
+                <input type="submit" name="unfollow_form" value="<?php echo $follow_button; ?>" />
+                <?php
+            }
+            elseif($_GET['id'] != $get_id)
+            {
+                $follow_button = 'Suivre';
+                ?>
+                <input type="submit" name="follow_form" value="<?php echo $follow_button; ?>" />
+                <?php
+            }
             ?>
-            <input type="submit" value="Se désabonner" name="unfollow_form" />
-            <?php
-        }
-        elseif($_GET['id'] != $get_id)
-        {
-            ?>
-            <input type="submit" value="Suivre" name="follow_form" />
-            <?php
-        }
-        ?>
+        </form>
+    </div>
+    </br>
+    <div align = "center">
+        <?php if(isset($message)) { echo $message; } ?>
     </div>
     </br>
     <div align = "center">
