@@ -50,13 +50,6 @@ $tweets->execute(array($get_id));
     <meta name="viewport" content="width=device-width, initial-scaled=1">
 </head>
 
-<body>
-    <div align="center">
-        
-    </div>
-</body>
-</html>
-
 <!DOCTYPE html>
 <html>
     <head>
@@ -71,7 +64,7 @@ $tweets->execute(array($get_id));
         <div class="page-accueil">
             <nav class="section-accueil">
                 <ul class="list-profil">
-                    <li class="li-profil-lien"><img id="logo" src="css/css/twitter-logo.jpg"></li>
+                    <li class="li-profil-lien"><a href="timeline.php?id=<?php echo $_SESSION['id'];?>"><img id="logo" src="css/css/twitter-logo.jpg"></a></li>
                     <li class="li-profil-lien"><a class="profil-lien" href="timeline.php?id=<?php echo $_SESSION['id'];?>"><i class="fas fa-home"></i>Retourner sur la page d'accueil</a></li>
                 </ul>
             </nav>
