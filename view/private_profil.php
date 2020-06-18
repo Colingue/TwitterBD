@@ -47,7 +47,7 @@ $tweets->execute(array($get_id));
                     if(isset($_SESSION['id']) AND $user['id'] == $_SESSION['id'])
                     {
                     ?>  
-                        <li class="li-profil-lien"><a class="profil-lien" href="deconnection.php"><i class="far fa-arrow-alt-circle-left"></i>Se déconnecter</a></li>
+                        <li class="li-profil-lien"><a class="profil-lien" href="index.php"><i class="far fa-arrow-alt-circle-left"></i>Se déconnecter</a></li>
                         <li class="li-profil-lien"><a class="profil-lien" href="timeline.php?id=<?php echo $_SESSION['id'];?>"><i class="fas fa-home"></i>Retourner sur la page d'accueil</a></li>
                     <?php
                     }

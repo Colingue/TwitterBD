@@ -39,6 +39,14 @@ $tweet = $bdd->prepare('SELECT t.tweet_id, t.tweet_user_id, t.tweet_like, t.twee
 $tweet->execute(array($_GET['id'], $_GET['id']));
 $tweet_tl = $tweet->fetchall();
 
+$tweet = $bdd->prepare('SELECT t.tweet_id, t.tweet_user_id, t.tweet_like, t.tweet_date, t.tweet_message FROM tweet AS t
+                        INNER JOIN subscriptions AS s ON t.tweet_user_id = s.subscriptions_follow_ups_id WHERE s.subscriptions_follower_id = ?
+                        UNION
+                        SELECT t.tweet_id, t.tweet_user_id, t.tweet_like, t.tweet_date, t.tweet_message FROM tweet AS t WHERE t.tweet_user_id = ?
+                        ORDER BY tweet_date DESC');
+$tweet->execute(array($_GET['id'], $_GET['id']));
+$tweet_tl = $tweet->fetchall();
+
 ?>
 <!DOCTYPE html>
 <html>
@@ -95,21 +103,7 @@ $tweet_tl = $tweet->fetchall();
                 <div class="sub-div">
                     <div class="part">
                         <h2>Suggestions</h2>
-                        <?php
-                        $query = $bdd->prepare('SELECT u.pseudo FROM user AS u');
-                        $query->execute(array($_GET['id']));
-                        $followers = $query->fetchall();
-                        ?>
-                        <table>
-                            <?php
-                            for ($lign = 0; $lign < count($followers); $lign++)
-                            {
-                                ?>
-                                <a class="link-sub" href="public_profil.php?id=<?php echo $_SESSION['id'];?>&public_id=<?php echo $pseudo['id']; ?>"><?= $pseudo['pseudo']?></a>
-                                </br>
-                                <?php
-                            }
-                            ?>
+                        <a id="pseudo-tweet" href="public_profil.php?id=<?php echo $_SESSION['id'];?>&public_id=<?php echo $pseudo['id']; ?>"><?= $pseudo['pseudo']?></a></br>
                         </table>
                     </div>
                 </div>    

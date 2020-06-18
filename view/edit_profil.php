@@ -62,6 +62,7 @@ if (isset($_SESSION['id']))
         <meta charset="utf-8" />
         <title>Twitter Clone</title>
         <meta name="viewport" content="width=device-width, initial-scaled=1">
+        <link rel='stylesheet' type='text/css' href='css/style.css'>
     </head>
 
     <body>

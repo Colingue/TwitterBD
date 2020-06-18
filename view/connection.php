@@ -55,20 +55,21 @@ if(isset($_POST['form_connection']))
         <meta charset="utf-8" />
         <title>Twitter Clone</title>
         <meta name="viewport" content="width=device-width, initial-scaled=1">
+        <link rel='stylesheet' type='text/css' href='css/style.css'>
     </head>
 
     <body>
-        <div align="center">
+        <div class="form">
             <img id="logo-connect" src="css/css/twitter-logo.jpg">
             <h2>Connectez vous</h2>
                 <form method="POST" action="">
                     <div class="form-div">
-                        <div>
+                        <div class="label-form">
                             <label for="input" class="Input-label">Pseudo</label>
                             <input id="input" class="Input-text" type="text" name="pseudo_connect" placeholder="Pseudo" />
                         </div>
                         </br>
-                        <div>
+                        <div class="label-form">
                             <label for="input" class="Input-label">Mot de passe</label>
                             <input id="input" class="Input-text" type="password" name="password_connect" placeholder="Mot de passe" />
                         </div>
@@ -91,7 +92,7 @@ if(isset($_POST['form_connection']))
             </div>
         </div>
         <div align="center">
-            <a href="register.php">Créer un compte</a>
+            <a class="profil-lien" href="register.php">Créer un compte</a>
         </div>
     </body>
 </html>

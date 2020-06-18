@@ -176,15 +176,6 @@ nav h2 {
 
 */
 
-#div-conn {
-    width: 40%;
-}
-
-.form-div {
-    display: flex;
-    flex-direction: column;
-}
-
-.div-center{
-    align-items: center;
+.form {
+    text-align: center;
 }
