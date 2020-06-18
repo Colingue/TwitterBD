@@ -10,7 +10,6 @@ body{
 }
 
 h2 {
-    text-align: center;
     font-family: 'Roboto', sans-serif;
     font-weight: 800;
 }
@@ -134,5 +133,7 @@ i{
 
 .message-tweet {
     margin: 8px;
+    font-size: 1em;
+    color: #3d3d43;
 }
 
