@@ -9,7 +9,7 @@ if(isset($_POST['tweet_form']))
     {
         $tweet = htmlspecialchars($_POST['tweet']);
         $tweet_count = strlen($tweet);
-        if(strlen($tweet_count) <= 140)
+        if($tweet_count <= 140)
         {
             //Prends la date Now
             $queryDate = $bdd->prepare('SELECT NOW()');
@@ -21,6 +21,10 @@ if(isset($_POST['tweet_form']))
             $query->execute(array($_GET['id'], 0, $tweet));
 
             $message = "Votre tweet a bien été publié !";
+        }
+        else
+        {
+            $message = "Votre tweet ne doit pas contenir plus de 140 caractères";
         }
     }
 }
@@ -46,19 +50,18 @@ $tweet_tl = $tweet->fetchall();
     </head>
 
     <body>
-        <header>
-            <h2>Accueil</h2>
-        </header>
 
         <div class="page-accueil">
             <nav class="section-accueil">
                 <ul class="list-profil">
+                    <li class="li-profil-lien"><img id="logo" src="css/css/twitter-logo.jpg"></li>
                     <li class="li-profil-lien"><a class="profil-lien" href="private_profil.php?id=<?php echo $_SESSION['id'];?>"><i class="fas fa-user-alt"></i>Voir mon profil</a></li>
                     <li class="li-profil-lien"><a class="profil-lien" href="edit_profil.php?id=<?php echo $_SESSION['id'];?>"><i class="fas fa-pencil-alt"></i>Editer mon profil</a></li>
                 </ul>
             </nav>
             
             <section class="section-accueil" id="tl-defilement">
+                <h2>Accueil</h2>
                 <form id="form-write-tweet" method="POST" action="">
                     <textarea name="tweet" placeholder="Quoi de neuf ?"></textarea></br>
                     <div id="the-count">
@@ -74,9 +77,12 @@ $tweet_tl = $tweet->fetchall();
                     $tweet_info = $bdd->prepare('SELECT u.pseudo, u.id FROM user AS u INNER JOIN tweet AS t ON u.id = t.tweet_user_id WHERE t.tweet_user_id = ? GROUP BY u.pseudo');
                     $tweet_info->execute(array($tweet_tl[$lign]['tweet_user_id']));
                     $pseudo = $tweet_info->fetch(); ?>
-                        <div id="each-tweet">
-                            <a href="public_profil.php?id=<?php echo $_SESSION['id'];?>&public_id=<?php echo $pseudo['id']; ?>"><?= $pseudo['pseudo']?></a>
-                            <?= $tweet_tl[$lign]['tweet_message'] ?></br>
+                        <div class="each-tweet">
+                            <div class="tweet-info">
+                                <a id="pseudo-tweet" href="public_profil.php?id=<?php echo $_SESSION['id'];?>&public_id=<?php echo $pseudo['id']; ?>"><?= $pseudo['pseudo']?></a>
+                                <p class="date-tweet"><?= $tweet_tl[$lign]['tweet_date'] ?></p>
+                            </div>
+                            <p class="message-tweet" ><?= $tweet_tl[$lign]['tweet_message'] ?></br></p>
                         </div>
                         <?php
                     }
