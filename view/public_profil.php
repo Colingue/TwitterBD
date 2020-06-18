@@ -24,7 +24,7 @@ if (isset($_GET['id']) AND $_GET['id'] > 0)
     $follow_type = $query->fetchall();
 }
 
-if(isset($_POST['follow_f']) AND $follow_type[0]['follow'] == 0)
+if(isset($_POST['follow_form']) AND $follow_type[0]['follow'] == 0)
 {
     $query = $bdd->prepare('INSERT INTO subscriptions (subscriptions_follow_ups_id, subscriptions_follower_id) VALUES(?, ?)');
     $query->execute(array($get_id, $_GET['id']));
