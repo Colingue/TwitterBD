@@ -52,49 +52,111 @@ $tweets->execute(array($get_id));
 
 <body>
     <div align="center">
-        <h2><?php echo $user['pseudo']; ?></h2>
-    </div>
-    </br>
-    </br>
-    <div align = "center">
-            <p>Abonnées : <?php echo $follower_count['follower'];?></p>
-            <p>Abonnements : <?php echo $follower_ups_count['follow_ups']; ?></p>
-    </div>
-    </br>
-    <div align="center">
-        <form method="POST" action ="">
-            <?php if($follow_type[0]['follow'] > 0)
-            {
-                $follow_button = 'Se désabonner';
-                ?>
-                <input type="submit" name="unfollow_form" value="<?php echo $follow_button; ?>" />
-                <?php
-            }
-            elseif($_GET['id'] != $get_id)
-            {
-                $follow_button = 'Suivre';
-                ?>
-                <input type="submit" name="follow_form" value="<?php echo $follow_button; ?>" />
-                <?php
-            }
-            ?>
-        </form>
-    </div>
-    </br>
-    <div align = "center">
-        <?php if(isset($message)) { echo $message; } ?>
-    </div>
-    </br>
-    <div align = "center">
-        <a href="timeline.php?id=<?php echo $_SESSION['id'];?>">Retourner sur la page d'accueil</a>
-    </div>
-    <div align ="center">
-        </br>
-        <?php while($tweet_affiche = $tweets->fetch()) { ?>
-            <b><a href="public_profil.php?id=<?php echo $_SESSION['id'];?>&public_id=<?php echo $tweet_affiche['tweet_user_id']; ?>"><?= $user['pseudo'] ?>:</a></b> <?= $tweet_affiche['tweet_message'] ?></br>
-    <?php
-    }
-    ?>
+        
     </div>
 </body>
+</html>
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <title>Twitter Clone</title>
+        <meta name="viewport" content="width=device-width, initial-scaled=1">
+        <link rel='stylesheet' type='text/css' href='css/style.css'>
+        <link rel='stylesheet' type='text/css' href='css/css/all.min.css'>
+    </head>
+
+    <body>
+        <div class="page-accueil">
+            <nav class="section-accueil">
+                <ul class="list-profil">
+                    <li class="li-profil-lien"><img id="logo" src="css/css/twitter-logo.jpg"></li>
+                    <li class="li-profil-lien"><a class="profil-lien" href="timeline.php?id=<?php echo $_SESSION['id'];?>"><i class="fas fa-home"></i>Retourner sur la page d'accueil</a></li>
+                </ul>
+            </nav>
+            
+            <section class="section-accueil" id="tl-defilement">
+                <h2><?php echo $user['pseudo']; ?></h2>
+                <div class="subscribe">
+                    <p><b><?php echo $follower_count['follower'];?></b> Abonnés</p>
+                    <p><b><?php echo $follower_ups_count['follow_ups']; ?></b> Abonnements</p>
+                </div>
+                <form method="POST" action ="">
+                    <?php if($follow_type[0]['follow'] > 0)
+                    {
+                        $follow_button = 'Se désabonner';
+                        ?>
+                        <input type="submit" name="unfollow_form" value="<?php echo $follow_button; ?>" />
+                        <?php
+                    }
+                    elseif($_GET['id'] != $get_id)
+                    {
+                        $follow_button = 'Suivre';
+                        ?>
+                        <input type="submit" name="follow_form" value="<?php echo $follow_button; ?>" />
+                        <?php
+                    }
+                    ?>
+                </form>
+                <div id="all-tweet">
+                    <?php while($tweet_affiche = $tweets->fetch()) { ?>
+                        <div class="each-tweet">
+                            <div class="tweet-info">
+                                <a id="pseudo-tweet" href="public_profil.php?id=<?php echo $_SESSION['id'];?>&public_id=<?php echo $tweet_affiche['tweet_user_id']; ?>"><?= $user['pseudo'] ?></a>
+                                <p class="date-tweet"><?= $tweet_affiche['tweet_date'] ?></p>
+                            </div>
+                            <p class="message-tweet" ><?= $tweet_affiche['tweet_message'] ?></p>
+                        </div>
+                    <?php
+                    }
+                    ?>
+                </div>
+            </section>
+            
+            <nav class="section-accueil">
+                <div class="sub-div">
+                    <div class="part">
+                        <h2>Abonnés</h2>
+                        <?php
+                        $query = $bdd->prepare('SELECT u.pseudo, u.id FROM user AS u INNER JOIN subscriptions AS s ON u.id = s.subscriptions_follower_id WHERE s.subscriptions_follow_ups_id = ?');
+                        $query->execute(array($get_id));
+                        $followers = $query->fetchall();
+                        ?>
+                        <table>
+                            <?php
+                            for ($lign = 0; $lign < count($followers); $lign++)
+                            {
+                                ?>
+                                <a class="link-sub" href="public_profil.php?id=<?php echo $_SESSION['id'];?>&public_id=<?php echo $followers[$lign]['id']; ?>"><?php echo $followers[$lign]['pseudo']; ?></a>
+                                </br>
+                                <?php
+                            }
+                            ?>
+                        </br>
+                        </table>
+                    </div>
+                    <div class="part">
+                        <h2>Abonnements</h2>
+                        <?php
+                        $query = $bdd->prepare('SELECT u.pseudo, u.id FROM user AS u INNER JOIN subscriptions AS s ON u.id = s.subscriptions_follow_ups_id WHERE s.subscriptions_follower_id = ?');
+                        $query->execute(array($get_id));
+                        $followers = $query->fetchall();
+                        ?>
+                        <table>
+                            <?php
+                            for ($lign = 0; $lign < count($followers); $lign++)
+                            {
+                                ?>
+                                <a class="link-sub" href="public_profil.php?id=<?php echo $_SESSION['id'];?>&public_id=<?php echo $followers[$lign]['id']; ?>"><?php echo $followers[$lign]['pseudo']; ?></a>
+                                </br>
+                                <?php
+                            }
+                            ?>
+                        </table>
+                    </div>
+                </div>    
+            </nav>
+        </div>
+    </body>
 </html>
