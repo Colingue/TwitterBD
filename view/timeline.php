@@ -9,7 +9,8 @@ if(isset($_POST['tweet_form']))
     if(isset($_POST['tweet']) AND !empty($_POST['tweet']))
     {
         $tweet = htmlspecialchars($_POST['tweet']);
-        if(strlen($tweet) <= 140)
+        $tweet_count = strlen($tweet);
+        if(strlen($tweet_count) <= 140)
         {
             //Prends la date Now
             $queryDate = $bdd->prepare('SELECT NOW()');
@@ -42,6 +43,7 @@ $tweet_tl = $tweet->fetchall();
         <title>Twitter Clone</title>
         <meta name="viewport" content="width=device-width, initial-scaled=1">
         <link rel='stylesheet' type='text/css' href='css/style.css'>
+        <link rel='stylesheet' type='text/css' href='css/css/all.min.css'>
     </head>
 
     <body>
@@ -51,28 +53,44 @@ $tweet_tl = $tweet->fetchall();
 
         <div class="page-accueil">
             <nav class="section-accueil">
-                <ul>
-                    <li><a href="edit_profil.php?id=<?php echo $_SESSION['id'];?>">Editer mon profil</a></li>
-                    <li><a href="private_profil.php?id=<?php echo $_SESSION['id'];?>">Voir mon profil</a></li>
+                <ul class="list-profil">
+                    <li class="li-profil-lien"><a class="profil-lien" href="private_profil.php?id=<?php echo $_SESSION['id'];?>"><i class="fas fa-user-alt"></i>Voir mon profil</a></li>
+                    <li class="li-profil-lien"><a class="profil-lien" href="edit_profil.php?id=<?php echo $_SESSION['id'];?>"><i class="fas fa-pencil-alt"></i>Editer mon profil</a></li>
                 </ul>
             </nav>
             
             <section class="section-accueil" id="tl-defilement">
                 <form id="form-write-tweet" method="POST" action="">
                     <textarea name="tweet" placeholder="Quoi de neuf ?"></textarea></br>
+                    <div id="the-count">
                     </br><input type="submit" value="Tweeter !" name="tweet_form" /></br>
+                        <span id="current">0</span>
+                        <span id="maximum">/ 140</span>
+                    </div>
+                    </br><input type="submit" value="Tweeter !" name="tweet_form" /></br> 
                 </form>
                 <?php if(isset($message)) { echo $message; } ?>
 
-                <div>
-                    </br>
+                <div id="all-tweet">
                     <?php for ($lign = 0; $lign < count($tweet_tl); $lign++) {
                     $tweet_info = $bdd->prepare('SELECT u.pseudo, u.id FROM user AS u INNER JOIN tweet AS t ON u.id = t.tweet_user_id WHERE t.tweet_user_id = ? GROUP BY u.pseudo');
                     $tweet_info->execute(array($tweet_tl[$lign]['tweet_user_id']));
                     $pseudo = $tweet_info->fetch(); ?>
-                        <b> <a href="public_profil.php?id=<?php echo $_SESSION['id'];?>&public_id=<?php echo $pseudo['id']; ?>"><?= $pseudo['pseudo']?>:</a></b><?= $tweet_tl[$lign]['tweet_message'] ?></br>
-                    <?php
+                        <div id="each-tweet">
+                            <a href="public_profil.php?id=<?php echo $_SESSION['id'];?>&public_id=<?php echo $pseudo['id']; ?>"><?= $pseudo['pseudo']?></a>
+                            <?= $tweet_tl[$lign]['tweet_message'] ?></br>
+                        </div>
+                        <?php
                     }
+                    ?>
+                </div>
+            </section>
+            
+            <nav class="section-accueil">
+            </nav>
+        </div>
+    </body>
+</html>                    }
                     ?>
                 </div>
             </section>

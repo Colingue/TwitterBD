@@ -42,7 +42,7 @@ input{
 	transition: all 0.2s;
 }
 
-input{
+input:hover{
     background-color:#4095c6;
 }
 
@@ -52,4 +52,47 @@ input{
     margin:0.2em auto;
 
     }
+}
+
+#the-count {
+	float: right;
+	padding: 0.1rem 0 0 0;
+	font-size: 0.875rem;
+  }
+
+.profil-lien {
+    text-decoration: none;
+    color: #4095c6;
+    font-size: 1.3em;
+    font-weight: 700;
+}
+
+.profil-lien:hover {
+    background-color:  #cceeff;
+    border-bottom: solid 3px#4095c6;
+}
+
+
+.li-profil-lien {
+    margin-bottom: 30px;  
+}
+
+.list-profil {
+    position: fixed;
+    list-style: none;
+    margin-left: 200px;
+    margin-right: 120px;
+}
+
+i{
+    margin-right: 10px;
+}
+
+
+#all-tweet {
+    margin: 30px;
+}
+
+#each-tweet {
+    margin-bottom: 20px;
 }
