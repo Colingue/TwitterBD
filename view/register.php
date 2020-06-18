@@ -88,7 +88,7 @@ if(isset($_POST['form_inscription']))
             }
             ?>
             <div>
-                <a href="index.php">Retourer à la connection</a>
+                <a href="index.php">Déjà inscrit ? Connecter vous</a>
             </div>
         </div>
     </body>
