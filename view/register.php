@@ -5,7 +5,7 @@ $bdd = new PDO('mysql:host=127.0.0.1;dbname=user__data', 'root', '');
 if(isset($_POST['form_inscription']))
 {
     $pseudo = htmlspecialchars($_POST['pseudo']);
-    $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
+    $password = htmlspecialchars(password_hash($_POST['password'], PASSWORD_DEFAULT));
 
     // Si les champs sont complétés
     if(!empty($_POST['pseudo']) AND !empty($_POST['password']))
